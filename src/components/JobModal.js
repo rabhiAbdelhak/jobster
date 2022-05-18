@@ -1,11 +1,10 @@
 import React from 'react';
 import JobForm from './JobForm';
 import styled from "styled-components";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const JobModal = () => {
     const {showJobModal} = useSelector(store => store.component);
-    const dispatch = useDispatch();
   return (
     <Wrapper show = {showJobModal}>
         <JobForm/>

@@ -1,10 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IoMdStats } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { MdOutlineAlignHorizontalLeft, MdPostAdd } from "react-icons/md";
-import { AiOutlineProfile } from "react-icons/ai";
-import { NavLink } from "react-router-dom";
 
 //local imports
 import { closeBigSideBar } from "../features/component/componentSlice";
