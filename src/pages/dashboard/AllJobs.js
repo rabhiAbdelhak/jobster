@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 //local imports
 import { ListJob, FilterContainer } from "../../components";
-import { getAlljobs } from "../../features/alljobs/alljobsSlice";
+import Pagination from "../../components/Pagination";
 import { openJobModal } from "../../features/component/componentSlice";
 import { clearJobValues } from "../../features/job/jobSlice";
 
 const AllJobs = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAlljobs());
-  }, []);
-
+  const { numOfPages } = useSelector((store) => store.alljobs);
   return (
     <Wrapper>
       <FilterContainer />
@@ -26,6 +22,7 @@ const AllJobs = () => {
       >
         +
       </AddButton>
+      {numOfPages > 1 && <Pagination/>}
     </Wrapper>
   );
 };

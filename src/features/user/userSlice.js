@@ -11,6 +11,7 @@ import {
   thunkRegisterUser,
   thunkLoginerUser,
   thunkUpdateUser,
+  clearStoreThunk,
 } from "./userThunk";
 
 export const loginUser = createAsyncThunk(
@@ -27,6 +28,10 @@ export const updateUser = createAsyncThunk(
   "user/updateUser",
   (user, thunkApi) => thunkUpdateUser("/auth/updateUser", user, thunkApi)
 );
+
+export const clearStore =  createAsyncThunk(
+  'auth/clearStore' , 
+  (_, thunkApi) => clearStoreThunk(thunkApi) ) 
 
 const initialState = {
   user: getUserFromLocalStorage() || {},
@@ -88,6 +93,9 @@ const userSlice = createSlice({
       state.isLoading = false;
       toast.error(payload);
     },
+    [clearStore.rejected]: (state) => {
+      console.log('Store Can\'t be removed ! try again');
+    }
   },
 });
 

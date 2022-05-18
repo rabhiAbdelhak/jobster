@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { FaWindowClose } from 'react-icons/fa';
 
 //local imports
 import FormGroup from "./FormGroup";
 import FormGroupSelect from "./FormGroupSelect";
 import { mediumScreen, mobile } from "../util/responsive";
+import { closeJobModal } from '../features/component/componentSlice';
+
 import {
   clearJobValues,
   createJob,
@@ -103,6 +106,7 @@ const JobForm = () => {
           </button>
         </div>
       </form>
+      <button className='job-modal-close-btn' onClick={() => dispatch(closeJobModal())}><FaWindowClose/></button>
     </Wrapper>
   );
 };
@@ -113,6 +117,7 @@ const Wrapper = styled.section`
   background-color: white;
   padding: 40px;
   border-radius: 5px;
+  position: relative;
   ${mobile({ padding: "20px" })}
   form {
     display: grid;
@@ -140,4 +145,14 @@ const Wrapper = styled.section`
       background-color: tomato;
     }
   }
+
+  .job-modal-close-btn{
+    background-color: transparent;
+    font-size: 25px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: tomato;
+    border: none;
+}
 `;

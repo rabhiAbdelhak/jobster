@@ -1,4 +1,6 @@
 import { axiosfetch } from "../../util/axios";
+import { clearAlljobState } from "../alljobs/alljobsSlice";
+import { clearJobValues } from "../job/jobSlice";
 import { logoutUser } from "./userSlice";
 
 //register user
@@ -25,12 +27,7 @@ const thunkUpdateUser = async (url, user, thunkApi) => {
   try {
     const { data: updatedUser } = await axiosfetch.patch(
       url,
-      user,
-      {
-        headers: {
-          authorization: `Bearer ${thunkApi.getState().user.user.token}`,
-        },
-      }
+      user
     );
 
     return updatedUser;
@@ -47,4 +44,20 @@ const thunkUpdateUser = async (url, user, thunkApi) => {
   }
 };
 
-export { thunkRegisterUser, thunkLoginerUser, thunkUpdateUser };
+const clearStoreThunk = (thunkApi) => {
+  try{
+    //logout the user
+    thunkApi.dispatch(logoutUser());
+    //delete the filter store
+    thunkApi.dispatch(clearJobValues());
+    //delete all jpbs state
+    thunkApi.dispatch(clearAlljobState());
+
+    Promise.resolve();
+  }catch(err){
+    Promise.reject(err);
+  }
+
+}
+
+export { thunkRegisterUser, thunkLoginerUser, thunkUpdateUser , clearStoreThunk};

@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
-import { axiosfetch } from "../../util/axios";
-import { getAlljobs, hideLoading, showLoading } from "../alljobs/alljobsSlice";
-import { logoutUser } from "../user/userSlice";
+import { axiosfetch, chechUserAuthorization } from "../../util/axios";
+import { getAlljobs, showLoading } from "../alljobs/alljobsSlice";
 import { clearJobValues } from "./jobSlice";
 
 
@@ -9,15 +8,10 @@ export const thunkAddJob = async (url , job, thunkApi) => {
     try {
         const { data: createdJob } = await axiosfetch.post(url, job);
         thunkApi.dispatch(clearJobValues());
+        thunkApi.dispatch(getAlljobs());
         return createdJob;
       } catch (err) {
-          let  message = '';
-          if(isUnAuthorized(err.response)){
-             message = 'UnAuthorized action!';
-             toast.error(message);
-             thunkApi.dispatch(logoutUser());     
-          }
-        return thunkApi.rejectedWithValue(message);
+        chechUserAuthorization(err.response, thunkApi)
       }
 }
 
@@ -28,13 +22,7 @@ export const thunkDeleteJob = async (url ,jobId, thunkApi) => {
       thunkApi.dispatch(getAlljobs());
       return data
     } catch (err) {
-      let  message = '';
-          if(isUnAuthorized(err.response)){
-             message = 'UnAuthorized action!';
-             toast.error(message);
-             thunkApi.dispatch(logoutUser());     
-          }
-        return thunkApi.rejectedWithValue(message);
+      chechUserAuthorization(err.response, thunkApi)
     }
 }
 
@@ -42,21 +30,10 @@ export const thunkEditJob = async (url ,{ jobId, job }, thunkApi) => {
     try {
       const {data} = await axiosfetch.patch('/jobs/'+jobId,job)
       thunkApi.dispatch(clearJobValues());
+      thunkApi.dispatch(getAlljobs());
       return data
     } catch (err) {
-      let  message = '';
-      if(isUnAuthorized(err.response)){
-         message = 'UnAuthorized action!';
-         toast.error(message);
-         thunkApi.dispatch(logoutUser());     
-      }else{
-        message = err.response.data.msg;
-      }
-
-    return thunkApi.rejectedWithValue(message);
+      chechUserAuthorization(err.response, thunkApi)
     }
 }
 
-const isUnAuthorized = (response) => {
-    return response.status === 401
-}

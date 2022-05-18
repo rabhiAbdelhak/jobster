@@ -19,11 +19,10 @@ export default FormGroupSelect
 const Wrapper= styled.div`
       display: flex;
       flex-direction: column;
-      margin-bottom: 20px;
       width: 100%;
 
       label {
-        font-size: 1.2rem;
+        font-size: 1rem;
         color: var(--grey-700);
       }
 

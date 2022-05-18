@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 
 //local imports
@@ -16,9 +16,11 @@ const initialState = {
   isMember: true,
 };
 
+
+
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const {user, isLoading, isAuth} = useSelector(store => store.user);
+  const {isLoading, isAuth} = useSelector(store => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,7 +30,12 @@ const Register = () => {
          navigate('/');
        },1500);
      }
-  }, [isAuth])
+  }, [isAuth, navigate])
+
+  const connectTestUser = () => {
+    dispatch(loginUser({email: 'testUser@test.com', password: 'secret'}));
+  }
+
   const handleChange = (e) => {
     const value = e.target.value;
     const name = e.target.name;
@@ -89,19 +96,19 @@ const Register = () => {
           handleChange={handleChange}
         />
         <button className="btn form-btn-submit" type="submit" disabled={isLoading}>
-          Submit
+          {isLoading ? 'Connecting...':'Submit'}
         </button>
-        <button className="btn form-btn-demo" type="submit">
-          Demo App
+        <button className="btn form-btn-demo" type="button" disabled={isLoading} onClick={connectTestUser}>
+          {isLoading ? 'Connecting...': 'Test User'}
         </button>
         <div className="form-member-text">
           <p>
             {values.isMember
               ? "You are not a member ?"
               : "You Already have a count"}{" "}
-            <a onClick={toggleMember}>
+            <button onClick={toggleMember} type='button'>
               {values.isMember ? "Register" : "Connect"}
-            </a>
+            </button>
           </p>
         </div>
       </form>

@@ -8,7 +8,7 @@ import {
   toggleLogout,
   toggleSideBar,
 } from "../features/component/componentSlice";
-import { logoutUser } from "../features/user/userSlice";
+import { clearStore, logoutUser } from "../features/user/userSlice";
 import { mobile } from "../util/responsive";
 
 const Navbar = () => {
@@ -19,7 +19,7 @@ const Navbar = () => {
   const logout = () => {
     dispatch(closeBigSideBar());
     dispatch(toggleLogout());
-    dispatch(logoutUser());
+    dispatch(clearStore());
   }
   return (
     <Wrapper>
@@ -54,7 +54,7 @@ export default Navbar;
 const Wrapper = styled.header`
 position: sticky;
 top:0;
-z-index: 999;
+z-index: 998;
 
   display: flex;
   justify-content: space-between;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearStore } from "../features/user/userSlice";
 import { getUserFromLocalStorage } from "./localStorage";
 
 
@@ -17,4 +18,14 @@ axiosfetch.interceptors.request.use(config => {
 },
 (error) => {
     return Promise.reject(error);
-})
+});
+
+export const  chechUserAuthorization = (response, thunkApi) => {
+     if(response.status === 401){
+         console.log(response.status)
+         thunkApi.dispatch(clearStore());
+         return thunkApi.rejectWithValue('UnAuthorized, Loging out ...');
+     }else{
+         return thunkApi.rejectWithValue(response.data.msg);
+     }
+}

@@ -7,17 +7,17 @@ import Loading from './Loading';
 
 
 const ListJob = () => {
-  const {isLoading, jobs} = useSelector(store => store.alljobs);
+  const {isLoading, jobs, totalJobs} = useSelector(store => store.alljobs);
 
   if(isLoading) return <Loading/>
-  if(jobs.length === 0) return (
+  if(totalJobs === 0) return (
     <Wrapper>
       <h3>No Jobs Mentioned</h3>
     </Wrapper>
   )
   return (
     <Wrapper>
-        <p>{jobs.length} Jobs Found </p>
+        <p>{totalJobs} Jobs Found </p>
         <div className='jobs-list'>
              {jobs.map(job => {
                return <Job key={job._id} {...job}/>
